@@ -13,6 +13,7 @@ const messageInput = document.getElementById("messageInput"),
     chatForm = document.getElementById("chatForm"),
     chatBox = document.getElementById("chat-box"),
     feedback = document.getElementById("feedback"),
+    welcome = document.getElementById("show-welcome"),
     onlineUsers = document.getElementById("online-users-list"),
     chatContainer = document.getElementById("chatContainer"),
     pvChatForm = document.getElementById("pvChatForm"),
@@ -81,10 +82,23 @@ chatNamespace.on("online", (users) => {
       }
   }
 });
+//show Welcom
+chatNamespace.on("welcome",(data)=>{
+  welcome.innerHTML = `<p class="alert alert-warning w-25"><em> Welcome ${data.nickname} To ${data.roomNumber}  </em></p>`;
+});
+//show joined
+chatNamespace.on("joined",(data)=>{
+  welcome.innerHTML = `<p class="alert alert-warning w-25"><em> ${data.text} </em></p>`;
+});
+//Show Left
+chatNamespace.on("status",(data)=>{
+  welcome.innerHTML = `<p class="alert alert-warning w-25"><em> ${data.text} </em></p>`;
+});
 // Listening to sockets emit  >>"chat message" from server
 // & send data to ui element
 chatNamespace.on("chat message", (data) => {
   feedback.innerHTML = "";
+  welcome.innerHTML="";
   chatBox.innerHTML += `
                         <li class="alert alert-light">
                             <span
